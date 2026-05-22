@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hope Haven – Find Emergency Shelter</title>
+
+  <!-- Shelter page CSS -->
+  <link rel="stylesheet" href="FindShelter.css" />
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+</head>
+<body>
+
+  <!-- HEADER (same family as Food page) -->
+  <header class="main-header">
+    <a href="index.html">
+      <img src="hopehaveimg.png" alt="Hope Haven logo" class="header-logo" />
+    </a>
+
+    <nav class="header-nav">
+      <a href="Find Resources.html" class="active">Find Resources</a>
+      <a href="volunteer-donate.html">Volunteer &amp; Donate</a>
+      <a href="about.html">About Us</a>
+      <a href="Community Stories.html">Community Stories</a>
+      <a href="contact.html">Contact</a>
+      <a href="Planning.html">Planning Analysis</a>
+      <a href="Market Risks.html">Market Risks</a>  
+      <a href="Reflection.html">Reflections</a>
+      
+    </nav>
+
+   
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="shelter-main">
+
+    <!-- HERO / INTRO -->
+    <section class="shelter-hero">
+      <h1>Find Emergency Shelter</h1>
+      <p>
+        Use this page to search for sample emergency shelters in Connecticut.
+        In a full project, this map could connect to ShelterLink for live bed
+        updates from partner shelters.
+      </p>
+      <ul>
+        <li>Search by <strong>city name</strong> or <strong>ZIP code</strong>.</li>
+        <li>See shelters on the map with available beds.</li>
+        <li>Check “Beds available today” in the results list.</li>
+      </ul>
+    </section>
+
+    <!-- TWO-COLUMN LAYOUT -->
+    <section class="content">
+
+      <!-- LEFT COLUMN – INFORMATION -->
+      <section class="left-column">
+        <h2>How to Use This Shelter Map</h2>
+        <p>
+          Type a city (for example, <strong>New Haven</strong>) or ZIP code
+          into the search box on the right, then click <strong>Search</strong>.
+          The map will move to that area and show markers for emergency shelters
+          in our sample data.
+        </p>
+        <p>
+          Click a marker to see the shelter name, city, and how many
+          <strong>beds are available out of the total</strong> for tonight.
+          The list under the map also shows these details.
+        </p>
+
+        <div class="help-text">
+          <h3>Need Immediate Help?</h3>
+          <p>
+            Call <strong>2-1-1 Connecticut</strong> if you need urgent help
+            finding a safe place to stay tonight. A specialist can connect you
+            to real shelters and support services near you.
+          </p>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN – SEARCH + MAP + RESULTS -->
+      <aside class="right-column">
+        <h2 class="side-title">CT Shelter Finder</h2>
+
+        <!-- SEARCH BAR -->
+        <div class="zip-search">
+          <input
+            id="location-input"
+            type="text"
+            placeholder="Enter City or ZIP"
+          />
+          <button id="search-btn">Search</button>
+        </div>
+
+        <!-- MAP -->
+        <div class="map-box">
+          <div id="map"></div>
+        </div>
+
+        <!-- RESULTS LIST -->
+        <section class="results">
+          <h3>Nearby Shelters</h3>
+          <div id="results-list">
+            <p class="results-placeholder">
+              Enter a city or ZIP code above, then press
+              <strong>Search</strong> to see shelter availability.
+            </p>
+          </div>
+        </section>
+      </aside>
+
+    </section>
+  </main>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <!-- PAGE SCRIPT: shelter search + live availability -->
+  <script>
+    // ==== SAMPLE SHELTER DATA (with beds available) ====
+    const shelters = [
+      {
+        name: "Hope Haven Downtown Shelter",
+        city: "New Haven",
+        zip: "06511",
+        lat: 41.3083,
+        lng: -72.9279,
+        bedsTotal: 80,
+        bedsAvailable: 12
+      },
+      {
+        name: "East Side Warming Center",
+        city: "New Haven",
+        zip: "06513",
+        lat: 41.315,
+        lng: -72.90,
+        bedsTotal: 40,
+        bedsAvailable: 3
+      },
+      {
+        name: "Harborview Emergency Shelter",
+        city: "Bridgeport",
+        zip: "06604",
+        lat: 41.1792,
+        lng: -73.1894,
+        bedsTotal: 60,
+        bedsAvailable: 0
+      },
+      {
+        name: "Hartford Night Shelter",
+        city: "Hartford",
+        zip: "06103",
+        lat: 41.7658,
+        lng: -72.6734,
+        bedsTotal: 55,
+        bedsAvailable: 7
+      },
+      {
+        name: "Stamford Safe Stay Center",
+        city: "Stamford",
+        zip: "06901",
+        lat: 41.0534,
+        lng: -73.5387,
+        bedsTotal: 45,
+        bedsAvailable: 5
+      }
+    ];
+
+    // ==== MAP INITIALIZATION (center on New Haven) ====
+    const map = L.map("map").setView([41.3083, -72.9279], 11);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    const markersLayer = L.layerGroup().addTo(map);
+
+    const input = document.getElementById("location-input");
+    const searchBtn = document.getElementById("search-btn");
+    const resultsList = document.getElementById("results-list");
+
+    // Render results list under map
+    function renderResults(matches) {
+      resultsList.innerHTML = "";
+
+      if (matches.length === 0) {
+        resultsList.innerHTML =
+          '<p class="no-results">No shelters found. Please re-enter a correct city or ZIP code.</p>';
+        return;
+      }
+
+      matches.forEach(s => {
+        const card = document.createElement("article");
+        card.className = "result-card";
+
+        const bedsText =
+          s.bedsAvailable > 0
+            ? `${s.bedsAvailable} beds available out of ${s.bedsTotal}`
+            : `No beds available (0 / ${s.bedsTotal})`;
+
+        card.innerHTML = `
+          <h4>${s.name}</h4>
+          <p><strong>City:</strong> ${s.city} (${s.zip})</p>
+          <p><strong>Beds:</strong> ${bedsText}</p>
+          <p class="tag ${s.bedsAvailable > 0 ? "tag-open" : "tag-closed"}">
+            ${s.bedsAvailable > 0 ? "Beds available tonight" : "No beds available tonight"}
+          </p>
+        `;
+        resultsList.appendChild(card);
+      });
+    }
+
+    // Main search function
+    function showSheltersFor(query) {
+      const q = query.trim();
+
+      if (!q) {
+        alert("Please enter a city or ZIP code.");
+        return;
+      }
+
+      markersLayer.clearLayers();
+      const qLower = q.toLowerCase();
+
+      // match by partial city name or starting ZIP
+      const matches = shelters.filter(
+        s =>
+          s.city.toLowerCase().includes(qLower) ||
+          s.zip.startsWith(q)
+      );
+
+      // No matches → popup + inline message
+      if (matches.length === 0) {
+        map.setView([41.3083, -72.9279], 11);
+        renderResults([]);
+        alert("No shelters found. Please re-enter the correct city or ZIP code.");
+        return;
+      }
+
+      const bounds = [];
+
+      matches.forEach(s => {
+        const marker = L.marker([s.lat, s.lng]).addTo(markersLayer);
+
+        const bedsText =
+          s.bedsAvailable > 0
+            ? `${s.bedsAvailable} beds available out of ${s.bedsTotal}`
+            : `No beds available (0 / ${s.bedsTotal})`;
+
+        const popupHtml = `
+          <strong>${s.name}</strong><br>
+          ${s.city} (${s.zip})<br>
+          Beds: ${bedsText}<br>
+          <span style="font-weight:bold;color:${s.bedsAvailable > 0 ? "#15803d" : "#b91c1c"};">
+            ${s.bedsAvailable > 0 ? "Beds available tonight" : "No beds available tonight"}
+          </span>
+        `;
+
+        marker.bindPopup(popupHtml);
+        bounds.push([s.lat, s.lng]);
+      });
+
+      map.fitBounds(bounds, { padding: [30, 30] });
+      renderResults(matches);
+    }
+
+    // Event handlers
+    searchBtn.addEventListener("click", () => {
+      showSheltersFor(input.value);
+    });
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        showSheltersFor(input.value);
+      }
+    });
+  </script>
+
+</body>
+</html>

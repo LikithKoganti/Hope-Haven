@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hope Haven – Find Resources</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="find-resources.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="index.html">
+      <img src="hopehaveimg.png" alt="Hope Haven Logo" class="header-logo">
+    </a>
+
+    <!-- PAGE TITLE (clickable to reload page) -->
+    <a href="Find Resources.html" class="find-resources-title">Find Resources</a>
+
+    <!-- Navigation -->
+    <nav class="header-nav">
+      <a href="Find Resources.html" class="active">Find Resources</a>
+      <a href="shelters.html">Shelters</a>
+      <a href="shelterlink.html">ShelterLink</a>
+      <a href="volunteer-donate.html">Volunteer &amp; Donate</a>
+      <a href="about.html">About Us</a>
+      <a href="stories.html">Community Stories</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <!-- Search bar -->
+    <div class="search-container">
+      <input type="text" placeholder="Search..." class="search-input">
+      <button class="search-btn">Search</button>
+    </div>
+  </header>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="resources-main">
+
+    <!-- HERO -->
+    <section class="resources-hero">
+      <div class="resources-text">
+        <h1>Find Resources in Your Community</h1>
+        <p>
+          Enter a ZIP code or select a resource type below to discover shelters, food programs,
+          volunteer opportunities, and community support locations near you.
+        </p>
+      </div>
+
+      <div class="resources-icons">
+
+        <!-- Link to NEW Shelter Page -->
+        <a href="shelters.html" class="icon-card">
+          <img src="home.png" alt="Shelter icon">
+          <p>Shelters</p>
+        </a>
+
+        <!-- Food Card -->
+        <div class="icon-card">
+          <img src="food.png" alt="Food icon">
+          <p>Food</p>
+        </div>
+
+        <!-- Volunteers Card -->
+        <a href="volunteer-donate.html" class="icon-card">
+          <img src="volunteers.png" alt="Volunteers icon">
+          <p>Volunteers</p>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- SEARCH SECTION -->
+    <section class="zip-section">
+      <h2>Find Nearby Services</h2>
+
+      <div class="zip-search">
+        <input type="text" placeholder="Enter ZIP code (e.g., 06511)" />
+        <button>Search</button>
+      </div>
+
+      <p class="note">
+        * Map results are sample data only. In the full version, this page will connect
+        to ShelterLink for real-time updates from shelters and food programs.
+      </p>
+    </section>
+
+    <!-- INFORMATION CARDS -->
+    <section class="info-section">
+
+      <div class="info-card">
+        <h3>Shelter Availability</h3>
+        <p>
+          Check shelters near you and view available beds. This feature helps individuals
+          and families locate safe overnight accommodations quickly.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h3>Food Support</h3>
+        <p>
+          Discover food pantries, community meals, and distribution programs within your area.
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h3>Volunteer Opportunities</h3>
+        <p>
+          Connect with organizations that need volunteers for meal service, shelter support,
+          outreach, and more.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>

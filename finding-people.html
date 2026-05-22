@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hope Haven – Volunteer Match</title>
+
+  <!-- Keep your existing global styles -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="finding-people.css">
+</head>
+
+<body>
+
+<header class="main-header">
+  <a href="index.html">
+    <img src="hopehaveimg.png" alt="Hope Haven Logo" class="header-logo">
+  </a>
+
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="Find Resources.html">Find Resources</a>
+    <a href="Find Shelter.html">Find Shelter</a>
+    <a href="food.html">Food</a>
+    <a href="volunteer-donate.html">Volunteer &amp; Donate</a>
+    <a class="active" href="volunteer-match.html">Volunteer Match</a>
+    <a href="about.html">About Us</a>
+    <a href="Community Stories.html">Community Stories</a>
+    <a href="Contact.html">Contact</a>
+  </nav>
+</header>
+
+<main class="vm-page">
+
+  <!-- HOW IT WORKS (TOP DESCRIPTION) -->
+  <section class="vm-how">
+    <div class="vm-how-card">
+      <h1>How Volunteer Match Works</h1>
+
+      <p class="vm-how-intro">
+        Not everyone in need has internet access or knows about the Hope Haven website.
+        <b>Volunteer Match</b> helps volunteers find and assist people by letting volunteers
+        report needs they observe in the community and coordinate help with other volunteers.
+      </p>
+
+      <div class="vm-how-grid">
+        <div class="vm-how-step">
+          <span class="vm-step-num">1</span>
+          <h3>Observe or Learn About a Need</h3>
+          <p>
+            A volunteer may notice someone who needs help (food, shelter, transportation,
+            medical assistance, etc.) or hear about a need through shelters, community centers,
+            or word-of-mouth.
+          </p>
+        </div>
+
+        <div class="vm-how-step">
+          <span class="vm-step-num">2</span>
+          <h3>Report the Need</h3>
+          <p>
+            Use the <b>“Report a Need”</b> form to describe the type of help needed, urgency level,
+            and a general area (cross-streets/neighborhood). Avoid exact addresses and personal details.
+          </p>
+        </div>
+
+        <div class="vm-how-step">
+          <span class="vm-step-num">3</span>
+          <h3>Volunteers Find Requests</h3>
+          <p>
+            Other volunteers can browse and filter requests by type, status, and area to find
+            nearby ways they can help.
+          </p>
+        </div>
+
+        <div class="vm-how-step">
+          <span class="vm-step-num">4</span>
+          <h3>Claim and Resolve</h3>
+          <p>
+            Claim a request to avoid duplicate help, coordinate support, and mark it as resolved once
+            assistance has been provided.
+          </p>
+        </div>
+      </div>
+
+      <div class="vm-how-note">
+        <h3>Important Notes</h3>
+        <ul>
+          <li>Do not share exact addresses or sensitive personal information.</li>
+          <li>If someone is in immediate danger, contact emergency services.</li>
+          <li>This is a prototype — requests are saved in <b>this browser only</b>.</li>
+          <li>In a real deployment, requests would be moderated and stored securely.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HERO -->
+  <section class="vm-hero">
+    <div class="vm-hero-text">
+      <p class="vm-pill">Volunteer Tool</p>
+      <h2 class="vm-hero-title">Volunteer Match: Find People Who Need Help (Even If They Don’t Use This Website)</h2>
+      <p class="vm-sub">
+        Many people in need don’t have internet access or don’t know this site exists.
+        This page helps volunteers <b>log needs they see in the community</b> and then
+        match those needs with volunteers nearby.
+      </p>
+
+      <div class="vm-stats">
+        <div class="vm-stat">
+          <span class="vm-stat-num" id="countNeeds">0</span>
+          <span class="vm-stat-label">Needs Posted</span>
+        </div>
+        <div class="vm-stat">
+          <span class="vm-stat-num" id="countOpen">0</span>
+          <span class="vm-stat-label">Open Requests</span>
+        </div>
+        <div class="vm-stat">
+          <span class="vm-stat-num" id="countClaimed">0</span>
+          <span class="vm-stat-label">Claimed</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="vm-hero-card">
+      <h3>Quick Safety Note</h3>
+      <ul>
+        <li>Don’t share exact addresses publicly. Use cross-streets/areas.</li>
+        <li>If someone is in immediate danger, call local emergency services.</li>
+        <li>Use respectful language and keep reports factual.</li>
+      </ul>
+      <p class="vm-small muted">
+        This is a prototype page. Data is saved in your browser (localStorage).
+      </p>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="vm-grid">
+
+    <!-- LEFT: Report Need -->
+    <section class="vm-card">
+      <h3>Report a Need</h3>
+      <p class="muted">Volunteers can add requests they observe or hear about.</p>
+
+      <form id="needForm" class="vm-form">
+        <div class="vm-row">
+          <label>
+            Need Type
+            <select id="needType" required>
+              <option value="">Select…</option>
+              <option>Food</option>
+              <option>Shelter</option>
+              <option>Transportation</option>
+              <option>Medical</option>
+              <option>Clothing</option>
+              <option>Childcare</option>
+              <option>Job Help</option>
+              <option>Other</option>
+            </select>
+          </label>
+
+          <label>
+            Urgency
+            <select id="urgency" required>
+              <option value="">Select…</option>
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
+            </select>
+          </label>
+        </div>
+
+        <label>
+          Area / Neighborhood (no exact address)
+          <input id="area" type="text" placeholder="Example: Downtown near Main St & Elm" required />
+        </label>
+
+        <label>
+          Description (what help is needed?)
+          <textarea id="description" rows="4" placeholder="Example: Family needs groceries + diapers for 2 days." required></textarea>
+        </label>
+
+        <div class="vm-row">
+          <label>
+            Preferred Contact Method
+            <select id="contactMethod" required>
+              <option value="">Select…</option>
+              <option>Call</option>
+              <option>Text</option>
+              <option>Email</option>
+              <option>Meet at community center</option>
+            </select>
+          </label>
+
+          <label>
+            Your Contact (volunteer)
+            <input id="contactInfo" type="text" placeholder="Phone / Email (kept on your device)" required />
+          </label>
+        </div>
+
+        <button type="submit" class="vm-btn">Post Need</button>
+        <p class="vm-small muted">Tip: You can “Claim” a request to avoid duplicate help.</p>
+      </form>
+    </section>
+
+    <!-- RIGHT: Search + List + Map -->
+    <section class="vm-card">
+      <div class="vm-card-head">
+        <div>
+          <h3>Find Requests to Help</h3>
+          <p class="muted">Filter requests, claim one, and coordinate support.</p>
+        </div>
+        <button class="vm-btn vm-btn-outline" id="clearAll">Clear All (Local)</button>
+      </div>
+
+      <div class="vm-filters">
+        <label>
+          Filter by Type
+          <select id="filterType">
+            <option value="All">All</option>
+            <option>Food</option>
+            <option>Shelter</option>
+            <option>Transportation</option>
+            <option>Medical</option>
+            <option>Clothing</option>
+            <option>Childcare</option>
+            <option>Job Help</option>
+            <option>Other</option>
+          </select>
+        </label>
+
+        <label>
+          Filter by Status
+          <select id="filterStatus">
+            <option value="All">All</option>
+            <option value="Open">Open</option>
+            <option value="Claimed">Claimed</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </label>
+
+        <label>
+          Search Area
+          <input id="searchArea" type="text" placeholder="Type a neighborhood..." />
+        </label>
+      </div>
+
+      <!-- Map placeholder (upgrade later with Leaflet) -->
+      <div class="vm-map" aria-label="Map placeholder">
+        <div class="vm-map-inner">
+          <h4>Map (Prototype)</h4>
+          <p class="muted">
+            Add Leaflet/Google Maps later to show pins by area.
+            For now, use the list below.
+          </p>
+          <p class="vm-small muted"><b>Upgrade idea:</b> Convert “Area” into coordinates.</p>
+        </div>
+      </div>
+
+      <div id="needsList" class="vm-list" aria-live="polite"></div>
+      <p class="vm-small muted">Requests are saved in your browser only.</p>
+    </section>
+
+  </section>
+
+  <!-- Bottom helper -->
+  <section class="vm-bottom">
+    <div class="vm-bottom-card">
+      <h3>How this helps people who don’t know about the website</h3>
+      <ol>
+        <li>Volunteers observe needs in the community (shelters, streets, centers).</li>
+        <li>They post a request here on behalf of that person/family.</li>
+        <li>Other volunteers nearby can claim and deliver help.</li>
+      </ol>
+      <p class="muted vm-small">
+        For a real deployment, connect this page to a database + admin moderation.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ---------- Storage ----------
+  const KEY = "hopehaven_volunteer_needs_v1";
+
+  function loadNeeds() {
+    try {
+      return JSON.parse(localStorage.getItem(KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveNeeds(needs) {
+    localStorage.setItem(KEY, JSON.stringify(needs));
+  }
+
+  // ---------- Helpers ----------
+  function uid() {
+    return "N" + Math.random().toString(16).slice(2) + Date.now().toString(16);
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function updateStats(needs) {
+    const total = needs.length;
+    const open = needs.filter(n => n.status === "Open").length;
+    const claimed = needs.filter(n => n.status === "Claimed").length;
+
+    document.getElementById("countNeeds").textContent = total;
+    document.getElementById("countOpen").textContent = open;
+    document.getElementById("countClaimed").textContent = claimed;
+  }
+
+  // ---------- Rendering ----------
+  const listEl = document.getElementById("needsList");
+
+  function matchesFilters(item) {
+    const type = document.getElementById("filterType").value;
+    const status = document.getElementById("filterStatus").value;
+    const q = document.getElementById("searchArea").value.trim().toLowerCase();
+
+    const typeOk = (type === "All") || (item.type === type);
+    const statusOk = (status === "All") || (item.status === status);
+    const areaOk = !q || item.area.toLowerCase().includes(q);
+
+    return typeOk && statusOk && areaOk;
+  }
+
+  function render() {
+    const needs = loadNeeds().sort((a,b) => b.createdAt - a.createdAt);
+    updateStats(needs);
+
+    const filtered = needs.filter(matchesFilters);
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `
+        <div class="vm-empty">
+          <b>No matching requests.</b>
+          <div class="muted">Try changing filters or add a new need.</div>
+        </div>
+      `;
+      return;
+    }
+
+    listEl.innerHTML = filtered.map(n => `
+      <article class="vm-item">
+        <div class="vm-item-top">
+          <div class="vm-badges">
+            <span class="vm-badge">${escapeHtml(n.type)}</span>
+            <span class="vm-badge vm-badge-urgency urgency-${escapeHtml(n.urgency)}">${escapeHtml(n.urgency)}</span>
+            <span class="vm-badge vm-badge-status status-${escapeHtml(n.status)}">${escapeHtml(n.status)}</span>
+          </div>
+          <div class="vm-item-time muted">
+            ${new Date(n.createdAt).toLocaleString()}
+          </div>
+        </div>
+
+        <h4 class="vm-item-title">${escapeHtml(n.area)}</h4>
+        <p class="vm-item-desc">${escapeHtml(n.description)}</p>
+
+        <div class="vm-item-actions">
+          <button class="vm-btn-sm" onclick="claimNeed('${n.id}')">Claim</button>
+          <button class="vm-btn-sm vm-btn-sm-outline" onclick="resolveNeed('${n.id}')">Mark Resolved</button>
+          <button class="vm-btn-sm vm-btn-sm-danger" onclick="deleteNeed('${n.id}')">Delete</button>
+        </div>
+
+        <details class="vm-details">
+          <summary>Volunteer Contact Info (local)</summary>
+          <div class="vm-details-body">
+            <div><b>Method:</b> ${escapeHtml(n.contactMethod)}</div>
+            <div><b>Contact:</b> ${escapeHtml(n.contactInfo)}</div>
+          </div>
+        </details>
+      </article>
+    `).join("");
+  }
+
+  // ---------- Actions ----------
+  window.claimNeed = function(id) {
+    const needs = loadNeeds();
+    const item = needs.find(n => n.id === id);
+    if (!item) return;
+    if (item.status === "Resolved") return;
+
+    item.status = "Claimed";
+    saveNeeds(needs);
+    render();
+  }
+
+  window.resolveNeed = function(id) {
+    const needs = loadNeeds();
+    const item = needs.find(n => n.id === id);
+    if (!item) return;
+
+    item.status = "Resolved";
+    saveNeeds(needs);
+    render();
+  }
+
+  window.deleteNeed = function(id) {
+    const needs = loadNeeds().filter(n => n.id !== id);
+    saveNeeds(needs);
+    render();
+  }
+
+  // ---------- Form submit ----------
+  document.getElementById("needForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const type = document.getElementById("needType").value.trim();
+    const urgency = document.getElementById("urgency").value.trim();
+    const area = document.getElementById("area").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const contactMethod = document.getElementById("contactMethod").value.trim();
+    const contactInfo = document.getElementById("contactInfo").value.trim();
+
+    if (!type || !urgency || !area || !description || !contactMethod || !contactInfo) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    const needs = loadNeeds();
+    needs.push({
+      id: uid(),
+      type,
+      urgency,
+      area,
+      description,
+      contactMethod,
+      contactInfo,
+      status: "Open",
+      createdAt: Date.now()
+    });
+
+    saveNeeds(needs);
+    e.target.reset();
+    render();
+  });
+
+  // ---------- Filters ----------
+  ["filterType","filterStatus","searchArea"].forEach(id => {
+    document.getElementById(id).addEventListener("input", render);
+  });
+
+  // ---------- Clear all ----------
+  document.getElementById("clearAll").addEventListener("click", () => {
+    const ok = confirm("Clear all saved requests from THIS browser?");
+    if (!ok) return;
+    localStorage.removeItem(KEY);
+    render();
+  });
+
+  // Initial render
+  render();
+</script>
+
+</body>
+</html>

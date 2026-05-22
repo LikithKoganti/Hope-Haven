@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hope Haven – Easter Egg</title>
+
+  <!-- External CSS (Lecture: External Stylesheets) -->
+  <link rel="stylesheet" href="easter-egg.css">
+  <link rel="stylesheet" href="easter-egg.css">
+</head>
+
+<body>
+
+<header class="egg-header">
+  <div class="egg-header-inner">
+    <a href="index.html" class="brand">
+      <img src="hopehaveimg.png" alt="Hope Haven Logo">
+      <span><b>Hope Haven</b> Easter Egg</span>
+    </a>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <span class="tag">Hidden Feature</span>
+      <h1>Easter Egg – Behind the Scenes</h1>
+      <p>
+        This hidden page explains the <b>technical concepts</b> used while building
+        the Hope Haven website and clearly separates concepts learned from lectures
+        versus those learned from external resources.
+      </p>
+
+      <div class="progress-row">
+        <span class="muted">Discovery Progress</span>
+        <!-- Lecture: progress element -->
+        <progress id="eggProgress" value="0" max="3"></progress>
+      </div>
+    </div>
+
+    <div class="egg-box">
+      <div class="egg-icon" id="eggIcon" title="Click the egg!">
+        🥚
+      </div>
+      <p class="muted small">
+        Tip: Click the egg 3 times to unlock the secret
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTENT GRID -->
+  <section class="grid">
+
+    <!-- FROM LECTURES -->
+    <article class="card">
+      <div class="section-title">
+        <h2>Technical Concepts Used from Lectures</h2>
+        
+      </div>
+
+      <ul class="list-tight">
+        <li><b>HTML5 Semantic Elements</b> – header, nav, section, article, footer</li>
+        <li><b>External CSS</b> using <code>&lt;link&gt;</code> (Lecture 2)</li>
+        <li><b>CSS Selectors</b> – class, id, descendant selectors</li>
+        <li><b>Flexbox & Grid</b> for responsive layouts (Lectures 6–7)</li>
+        <li><b>Sticky Positioning</b> for navigation headers</li>
+        <li><b>Forms & New HTML Controls</b> – progress, input types (Lecture 6)</li>
+        <li><b>Accessibility Principles</b> (alt text, readable contrast, structure)</li>
+        <li><b>CSS Transitions & Animations</b> (Lecture 11)</li>
+        <li><b>JavaScript Basics</b> – variables, conditionals, functions (Lecture 10)</li>
+        <li><b>DOM Manipulation</b> using <code>getElementById</code> and events</li>
+        <li><b>SDLC Awareness</b> – design → build → test → refine (Lecture 12)</li>
+      </ul>
+    </article>
+
+    <!-- FROM OTHER RESOURCES -->
+    <article class="card">
+      <div class="section-title">
+        <h2>🌐 Concepts Used Beyond Lectures</h2>
+        
+      </div>
+
+      <ul class="list-tight">
+        <li><b>LocalStorage</b> to remember Easter Egg discovery state</li>
+        <li><b>Modal Design Pattern</b> for popup content</li>
+        <li><b>Micro-interactions</b> for improved user experience</li>
+        <li><b>UI Polish Techniques</b> inspired by modern web design practices</li>
+      </ul>
+    </article>
+
+  </section>
+</main>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>🎉 Easter Egg Found!</h3>
+      <button class="btn" id="closeModal">Close</button>
+    </div>
+    <div class="modal-body">
+      <p>
+        You discovered the hidden Easter Egg!  
+        This feature demonstrates JavaScript event handling, DOM manipulation,
+        CSS animations, and state persistence using localStorage.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript (Lecture 10 concepts) -->
+<script>
+  let clicks = 0;
+  const egg = document.getElementById("eggIcon");
+  const progress = document.getElementById("eggProgress");
+  const modal = document.getElementById("modalBackdrop");
+  const closeBtn = document.getElementById("closeModal");
+
+  egg.addEventListener("click", () => {
+    clicks++;
+    progress.value = clicks;
+
+    egg.classList.add("wiggle");
+    setTimeout(() => egg.classList.remove("wiggle"), 300);
+
+    if (clicks === 3) {
+      modal.classList.add("show");
+      localStorage.setItem("easterEggFound", "true");
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+</script>
+
+</body>
+</html>
